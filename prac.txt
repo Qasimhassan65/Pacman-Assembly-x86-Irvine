@@ -1,0 +1,42 @@
+pause_screen proc
+
+pause_loop:
+
+	mov eax,blue 
+	call SetTextColor
+	
+	mov dl,48
+	mov dh,12
+	call Gotoxy
+	call Gotoxy
+	mov edx,OFFSET Prompt_resume
+	call WriteString
+
+	mov dl,48
+	mov dh,16
+	call Gotoxy
+	call Gotoxy
+	mov edx,OFFSET Prompt_exit
+	call WriteString
+
+	call ReadChar
+	mov inputChar,al
+
+	cmp inputChar,"r"
+	je resume
+
+	cmp inputChar,"e"
+	je close_screen
+
+	jmp return
+
+	close_screen:
+
+	return:
+	jmp pause_loop
+
+	resume:
+	
+	ret
+
+pause_screen endp
